@@ -56,6 +56,10 @@ function randomPic() {
   if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
     randomPic();
   }
+  else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
+    randomPic();
+  }
+
 }
 
 randomPic();
