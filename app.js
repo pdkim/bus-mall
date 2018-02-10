@@ -5,6 +5,8 @@ var maxClicks = 25;
 //images
 Product.allProducts = [];
 
+var prevImages;
+
 function Product(name, filepath) {
   this.name = name;
   this.filepath = filepath;
@@ -59,7 +61,17 @@ function randomPic() {
   else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
     randomPic();
   }
-
+  prevImages = [imgEl.src, imgEl2.src, imgEl3.src];
+  for(var i = 0; i < prevImages[i]; i++) {
+    if(imgEl.src === prevImages.imgEl.src[i] || imgEl2.src === prevImages.imgEl2.src[i] || imgEl3.src === prevImages.imgEl3.src[i]) {
+      randomPic();
+    }
+    else {
+      imgEl.src.push(prevImages);
+      imgEl2.src.push(prevImages);
+      imgEl3.src.push(prevImages);
+    }
+  }
 }
 
 randomPic();
