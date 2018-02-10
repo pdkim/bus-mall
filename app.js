@@ -1,11 +1,21 @@
 'use strict';
 
+var maxClicks = 25;
+
 //images
 Product.allProducts = [];
 
 function Product(name, filepath) {
   this.name = name;
   this.filepath = filepath;
+  this.totalClicks = 0;
+  // this.countClicks = function() {
+  //   this.addEventListener('click', countClicks);
+  //   if(this.onclick) {
+  //     this.totalClicks++;
+  //   }
+  // }
+  // this.countClicks();
   Product.allProducts.push(this);
 }
 
@@ -37,18 +47,14 @@ imgEl2.addEventListener('click', randomPic);
 imgEl3.addEventListener('click', randomPic);
 
 function randomPic() {
-  var clicks = 25;
   var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
+  var randomIndex2 = Math.floor(Math.random() * Product.allProducts.length);
+  var randomIndex3 = Math.floor(Math.random() * Product.allProducts.length);
   imgEl.src = Product.allProducts[randomIndex].filepath;
-  imgEl2.src = Product.allProducts[randomIndex].filepath;
-  imgEl3.src = Product.allProducts[randomIndex].filepath;
-  if(clicks > 0) {
-    clicks--;
-  }
-  else {
-    imgEl.removeEventListener('click', randomPic);
-    imgEl2.removeEventListener('click', randomPic);
-    imgEl3.removeEventListener('click', randomPic);
+  imgEl2.src = Product.allProducts[randomIndex2].filepath;
+  imgEl3.src = Product.allProducts[randomIndex3].filepath;
+  if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
+    randomPic();
   }
 }
 
