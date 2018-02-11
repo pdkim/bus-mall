@@ -1,6 +1,6 @@
 'use strict';
 
-var maxClicks = 25;
+var maxClicks = 0;
 
 //images
 Product.allProducts = [];
@@ -55,12 +55,14 @@ function randomPic() {
   imgEl.src = Product.allProducts[randomIndex].filepath;
   imgEl2.src = Product.allProducts[randomIndex2].filepath;
   imgEl3.src = Product.allProducts[randomIndex3].filepath;
+  //prevent repeating images within all 3 slots.
   if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
     randomPic();
   }
   else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
     randomPic();
   }
+  //attempt to stop back to back images within same column
   prevImages = [imgEl.src, imgEl2.src, imgEl3.src];
   for(var i = 0; i < prevImages[i]; i++) {
     if(imgEl.src === prevImages.imgEl.src[i] || imgEl2.src === prevImages.imgEl2.src[i] || imgEl3.src === prevImages.imgEl3.src[i]) {
@@ -72,6 +74,32 @@ function randomPic() {
       imgEl3.src.push(prevImages);
     }
   }
+  //attmept maximum of 25 clicks
+  function stopClicks() {
+    if(maxClicks === 25) {
+      clicksReached();
+      render();
+    } else {
+      maxClicks++;
+    }
+  }
+  stopClicks();
 }
 
 randomPic();
+
+//clicks and render functions
+function clicksReached() {
+  imgEl.removeEventListener('click', randomPic);
+  imgEl2.removeEventListener('click', randomPic);
+  imgEl3.removeEventListener('click', randomPic);
+}
+
+function render() {
+  for(var k = 0; k < Product.allProducts.length; k++) {
+    var final = document.getElementById('final');
+    var liEl = document.createElement('li');
+    liEl.textContent = Product.allProducts.name[k] + 'got ' + Product.allProducts.totalClicks[k] + ' votes!';
+    final.appendChild(liEl);
+  }
+}
