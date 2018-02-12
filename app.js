@@ -11,13 +11,6 @@ function Product(name, filepath) {
   this.name = name;
   this.filepath = filepath;
   this.totalClicks = 0;
-  // this.countClicks = function() {
-  //   this.addEventListener('click', countClicks);
-  //   if(this.onclick) {
-  //     this.totalClicks++;
-  //   }
-  // }
-  // this.countClicks();
   Product.allProducts.push(this);
 }
 
@@ -39,14 +32,18 @@ new Product('usb', 'img/usb.gif');
 new Product('water-can', 'img/water-can.jpg');
 new Product('wine-glass', 'img/wine-glass.jpg');
 
+
 //images event
 var imgEl = document.getElementById('firstSet');
 var imgEl2 = document.getElementById('secondSet');
 var imgEl3 = document.getElementById('thirdSet');
 
-imgEl.addEventListener('click', randomPic);
-imgEl2.addEventListener('click', randomPic);
-imgEl3.addEventListener('click', randomPic);
+var images = document.getElementById('images');
+images.addEventListener('click', randomPic);
+
+// imgEl.addEventListener('click', randomPic);
+// imgEl2.addEventListener('click', randomPic);
+// imgEl3.addEventListener('click', randomPic);
 
 function randomPic() {
   var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
@@ -55,6 +52,7 @@ function randomPic() {
   imgEl.src = Product.allProducts[randomIndex].filepath;
   imgEl2.src = Product.allProducts[randomIndex2].filepath;
   imgEl3.src = Product.allProducts[randomIndex3].filepath;
+  // imgEl.onclick = //function
   //prevent repeating images within all 3 slots.
   if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
     randomPic();
@@ -74,32 +72,34 @@ function randomPic() {
       imgEl3.src.push(prevImages);
     }
   }
-  //attmept maximum of 25 clicks
-  function stopClicks() {
-    if(maxClicks === 25) {
-      clicksReached();
+  //stop after 25 clicks
+  // function stopClicks() {
+    if(maxClicks !== 25) {
+      reachedClicks();
       render();
     } else {
       maxClicks++;
     }
-  }
-  stopClicks();
+    console.log(maxClicks);
+  // }
+  // stopClicks();
 }
 
 randomPic();
 
 //clicks and render functions
-function clicksReached() {
-  imgEl.removeEventListener('click', randomPic);
-  imgEl2.removeEventListener('click', randomPic);
-  imgEl3.removeEventListener('click', randomPic);
+function reachedClicks() {
+  images.removeEventListener('click', randomPic);
+  // imgEl.removeEventListener('click', randomPic, true);
+  // imgEl2.removeEventListener('click', randomPic, true);
+  // imgEl3.removeEventListener('click', randomPic, true);
 }
 
 function render() {
   for(var k = 0; k < Product.allProducts.length; k++) {
     var final = document.getElementById('final');
     var liEl = document.createElement('li');
-    liEl.textContent = Product.allProducts.name[k] + 'got ' + Product.allProducts.totalClicks[k] + ' votes!';
+    liEl.textContent = Product.allProducts[k].name + 'got ' + Product.allProducts[k].totalClicks + ' votes!';
     final.appendChild(liEl);
   }
 }
