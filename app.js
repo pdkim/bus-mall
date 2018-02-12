@@ -43,7 +43,6 @@ images.addEventListener('click', randomPic);
 
 function randomPic() {
   var imgEl = document.getElementById('image' + (i + 1));
-  imgEl.src = Product.allProducts[randomIndex].filepath;
   for(var i = 0; i < 3; i++) {
     var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
     imgEl = document.getElementById('image' + (i + 1));
@@ -73,7 +72,7 @@ function randomPic() {
     render();
   } else {
     maxClicks++;
-  }  
+  }
 }
 
 //prevent repeating images within all 3 slots.
@@ -109,6 +108,7 @@ function randomPic() {
 //}
 
 randomPic();
+console.log(randomPic);
 
 //clicks and render functions
 function reachedClicks() {
