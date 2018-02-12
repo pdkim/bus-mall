@@ -1,11 +1,13 @@
 'use strict';
 
 var maxClicks = 0;
+var repeat = false;
 
 //images
 Product.allProducts = [];
 
-var prevImages;
+var prevImages = [];
+var currentImages = [];
 
 function Product(name, filepath) {
   this.name = name;
@@ -32,12 +34,6 @@ new Product('usb', 'img/usb.gif');
 new Product('water-can', 'img/water-can.jpg');
 new Product('wine-glass', 'img/wine-glass.jpg');
 
-
-//images event
-var imgEl = document.getElementById('firstSet');
-var imgEl2 = document.getElementById('secondSet');
-var imgEl3 = document.getElementById('thirdSet');
-
 var images = document.getElementById('images');
 images.addEventListener('click', randomPic);
 
@@ -46,44 +42,71 @@ images.addEventListener('click', randomPic);
 // imgEl3.addEventListener('click', randomPic);
 
 function randomPic() {
-  var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-  var randomIndex2 = Math.floor(Math.random() * Product.allProducts.length);
-  var randomIndex3 = Math.floor(Math.random() * Product.allProducts.length);
+  var imgEl = document.getElementById('image' + (i + 1));
   imgEl.src = Product.allProducts[randomIndex].filepath;
-  imgEl2.src = Product.allProducts[randomIndex2].filepath;
-  imgEl3.src = Product.allProducts[randomIndex3].filepath;
-  // imgEl.onclick = //function
-  //prevent repeating images within all 3 slots.
-  if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
-    randomPic();
-  }
-  else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
-    randomPic();
-  }
-  //attempt to stop back to back images within same column
-  prevImages = [imgEl.src, imgEl2.src, imgEl3.src];
-  for(var i = 0; i < prevImages[i]; i++) {
-    if(imgEl.src === prevImages.imgEl.src[i] || imgEl2.src === prevImages.imgEl2.src[i] || imgEl3.src === prevImages.imgEl3.src[i]) {
-      randomPic();
+  for(var i = 0; i < 3; i++) {
+    var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
+    imgEl = document.getElementById('image' + (i + 1));
+    imgEl.src = Product.allProducts[randomIndex].filepath;
+    if(imgEl === currentImages.imgEl[i]) {
+      repeat = true;
+    }
+    if(imgEl === prevImages.imgEl[i]) {
+      repeat = true;
+    }
+    if(repeat === true) {
+      i--;
     }
     else {
-      imgEl.src.push(prevImages);
-      imgEl2.src.push(prevImages);
-      imgEl3.src.push(prevImages);
+      currentImages.push(imgEl.src);
+    }
+    if(currentImages.length === 3) {
+      prevImages = currentImages;
+      currentImages = [];
     }
   }
-  //stop after 25 clicks
-  // function stopClicks() {
-    if(maxClicks !== 25) {
-      reachedClicks();
-      render();
-    } else {
-      maxClicks++;
-    }
-    console.log(maxClicks);
-  // }
-  // stopClicks();
+  imgEl.onclick = function (randomIndex) {
+    Product.allProducts[randomIndex].totalClicks++;
+  };
+  if(maxClicks !== 25) {
+    reachedClicks();
+    render();
+  } else {
+    maxClicks++;
+  }  
 }
+
+//prevent repeating images within all 3 slots.
+// if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
+//   randomPic();
+// }
+// else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
+//   randomPic();
+// }
+//attempt to stop back to back images within same column
+// prevImages = [imgEl.src, imgEl2.src, imgEl3.src];
+// for(var i = 0; i < prevImages[i]; i++) {
+//   if(imgEl.src === prevImages.imgEl.src[i] || imgEl2.src === prevImages.imgEl2.src[i] || imgEl3.src === prevImages.imgEl3.src[i]) {
+//     randomPic();
+//   }
+//   else {
+//     imgEl.src.push(prevImages);
+//     imgEl2.src.push(prevImages);
+//     imgEl3.src.push(prevImages);
+//   }
+// }
+//stop after 25 clicks
+// function stopClicks() {
+// if(maxClicks !== 25) {
+//   reachedClicks();
+//   render();
+// } else {
+//   maxClicks++;
+// }
+// console.log(maxClicks);
+// }
+// stopClicks();
+//}
 
 randomPic();
 
