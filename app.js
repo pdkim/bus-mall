@@ -9,9 +9,9 @@ Product.pics = [document.getElementById('img1'), document.getElementById('img2')
 Product.tally = document.getElementById('final');
 Product.totalClicks = 0;
 
-function Product(name, src) {
+function Product(name, filepath) {
   this.name = name;
-  this.path = src;
+  this.path = filepath;
   this.votes = 0;
   this.views = 0;
   Product.allProducts.push(this);
@@ -49,11 +49,13 @@ function displayPic() {
     currentlyShowing[0] = makeRandom();
   }
   //img2 check
+  currentlyShowing[1] = makeRandom();
   while(currentlyShowing[0] === currentlyShowing[1] || Product.justViewed.indexOf(currentlyShowing[1]) !== -1) {
     console.error('duplicate, re-run');
     currentlyShowing[1] = makeRandom();
   }
   //img3 check
+  currentlyShowing[2] = makeRandom();
   while(currentlyShowing[0] === currentlyShowing[2] || currentlyShowing[1] === currentlyShowing[2] || Product.justViewed.indexOf(currentlyShowing[2]) !== -1) {
     console.error('duplicate, re-run');
     currentlyShowing[2] = makeRandom();
