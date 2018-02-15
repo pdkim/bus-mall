@@ -1,18 +1,19 @@
 'use strict';
 
-var maxClicks = 0;
-var repeat = false;
-
 //images
 Product.allProducts = [];
+Product.container = document.getElementById('images');
+Product.justViewed = [];
+Product.pics = [document.getElementById('img1'), document.getElementById('img2'), document.getElementById('img3')]
+Product.tally = document.getElementById('final');
 
-var prevImages = [];
-var currentImages = [];
+var maxClicks = 0;
 
 function Product(name, filepath) {
   this.name = name;
   this.filepath = filepath;
   this.totalClicks = 0;
+  this.views = 0;
   Product.allProducts.push(this);
 }
 
@@ -34,95 +35,57 @@ new Product('usb', 'img/usb.gif');
 new Product('water-can', 'img/water-can.jpg');
 new Product('wine-glass', 'img/wine-glass.jpg');
 
-var images = document.getElementById('images');
-images.addEventListener('click', randomPic);
+//images event
+var imgEl = document.getElementById('img1');
+var imgEl2 = document.getElementById('img2');
+var imgEl3 = document.getElementById('img3');
 
-// imgEl.addEventListener('click', randomPic);
-// imgEl2.addEventListener('click', randomPic);
-// imgEl3.addEventListener('click', randomPic);
+imgEl.addEventListener('click', randomPic);
+imgEl2.addEventListener('click', randomPic);
+imgEl3.addEventListener('click', randomPic);
 
 function randomPic() {
-  var imgEl = document.getElementById('image' + (i + 1));
-  for(var i = 0; i < 3; i++) {
-    var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-    imgEl = document.getElementById('image' + (i + 1));
-    imgEl.src = Product.allProducts[randomIndex].filepath;
-    if(imgEl === currentImages.imgEl[i]) {
-      repeat = true;
-    }
-    if(imgEl === prevImages.imgEl[i]) {
-      repeat = true;
-    }
-    if(repeat === true) {
-      i--;
-    }
-    else {
-      currentImages.push(imgEl.src);
-    }
-    if(currentImages.length === 3) {
-      prevImages = currentImages;
-      currentImages = [];
+  var randomIndex = Math.floor(Math.random() * Product.allProducts.length);
+  var randomIndex2 = Math.floor(Math.random() * Product.allProducts.length);
+  var randomIndex3 = Math.floor(Math.random() * Product.allProducts.length);
+  imgEl.src = Product.allProducts[randomIndex].filepath;
+  imgEl2.src = Product.allProducts[randomIndex2].filepath;
+  imgEl3.src = Product.allProducts[randomIndex3].filepath;
+  //prevent repeating images within all 3 slots.
+  if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
+    randomPic();
+  }
+  else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
+    randomPic();
+  }
+  //attempt to stop back to back images within same column
+  
+  //attmept maximum of 25 clicks
+  function stopClicks() {
+    if(maxClicks === 25) {
+      clicksReached();
+      render();
+    } else {
+      maxClicks++;
     }
   }
-  imgEl.onclick = function (randomIndex) {
-    Product.allProducts[randomIndex].totalClicks++;
-  };
-  if(maxClicks !== 25) {
-    reachedClicks();
-    render();
-  } else {
-    maxClicks++;
-  }
+  stopClicks();
 }
 
-//prevent repeating images within all 3 slots.
-// if(randomIndex === randomIndex2 || randomIndex === randomIndex3) {
-//   randomPic();
-// }
-// else if(randomIndex2 === randomIndex || randomIndex2 === randomIndex3) {
-//   randomPic();
-// }
-//attempt to stop back to back images within same column
-// prevImages = [imgEl.src, imgEl2.src, imgEl3.src];
-// for(var i = 0; i < prevImages[i]; i++) {
-//   if(imgEl.src === prevImages.imgEl.src[i] || imgEl2.src === prevImages.imgEl2.src[i] || imgEl3.src === prevImages.imgEl3.src[i]) {
-//     randomPic();
-//   }
-//   else {
-//     imgEl.src.push(prevImages);
-//     imgEl2.src.push(prevImages);
-//     imgEl3.src.push(prevImages);
-//   }
-// }
-//stop after 25 clicks
-// function stopClicks() {
-// if(maxClicks !== 25) {
-//   reachedClicks();
-//   render();
-// } else {
-//   maxClicks++;
-// }
-// console.log(maxClicks);
-// }
-// stopClicks();
-//}
-
 randomPic();
-console.log(randomPic);
 
 //clicks and render functions
-function reachedClicks() {
-  images.removeEventListener('click', randomPic);
-  // imgEl.removeEventListener('click', randomPic, true);
-  // imgEl2.removeEventListener('click', randomPic, true);
-  // imgEl3.removeEventListener('click', randomPic, true);
+function clicksReached() {
+  imgEl.removeEventListener('click', randomPic);
+  imgEl2.removeEventListener('click', randomPic);
+  imgEl3.removeEventListener('click', randomPic);
 }
 
 function render() {
   for(var k = 0; k < Product.allProducts.length; k++) {
     var final = document.getElementById('final');
     var liEl = document.createElement('li');
-    liEl.textContent = Product.allProducts[k].name + 'got ' + Product.allProducts[k].totalClicks + ' votes!';
+    liEl.textContent = Product.allProducts.name[k] + 'got ' + Product.allProducts.totalClicks[k] + ' votes!';
     final.appendChild(liEl);
   }
 }
