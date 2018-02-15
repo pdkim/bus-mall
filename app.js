@@ -1,6 +1,7 @@
 'use strict';
 
 //images
+
 Product.allProducts = [];
 Product.container = document.getElementById('images');
 Product.justViewed = [];
@@ -10,7 +11,7 @@ Product.totalClicks = 0;
 
 function Product(name, src) {
   this.name = name;
-  this.src = src;
+  this.path = src;
   this.votes = 0;
   this.views = 0;
   Product.allProducts.push(this);
@@ -40,29 +41,29 @@ function makeRandom() {
 }
 
 function displayPic() {
-  var currentylyShowing = [];
+  var currentlyShowing = [];
   //img1 check
-  currentylyShowing[0] = makeRandom();
-  while(Product.justViewed.indexOf(currentylyShowing[0]) !== -1) {
+  currentlyShowing[0] = makeRandom();
+  while(Product.justViewed.indexOf(currentlyShowing[0]) !== -1) {
     console.error('duplicate, re-run');
-    currentylyShowing[0] = makeRandom();
+    currentlyShowing[0] = makeRandom();
   }
   //img2 check
-  while(currentylyShowing[0] === currentylyShowing[1] || Product.justViewed.indexOf(currentylyShowing[1]) !== -1) {
+  while(currentlyShowing[0] === currentlyShowing[1] || Product.justViewed.indexOf(currentlyShowing[1]) !== -1) {
     console.error('duplicate, re-run');
-    currentylyShowing[1] = makeRandom();
+    currentlyShowing[1] = makeRandom();
   }
   //img3 check
-  while(currentylyShowing[0] === currentylyShowing[2] || currentylyShowing[1] === currentylyShowing[2] || Product.justViewed.indexOf(currentylyShowing[2]) !== -1) {
+  while(currentlyShowing[0] === currentlyShowing[2] || currentlyShowing[1] === currentlyShowing[2] || Product.justViewed.indexOf(currentlyShowing[2]) !== -1) {
     console.error('duplicate, re-run');
-    currentylyShowing[2] = makeRandom();
+    currentlyShowing[2] = makeRandom();
   }
   //DOM
   for(var i = 0; i < 3; i++) {
-    Product.pics[i].src = Product.allProducts[currentylyShowing[i]].src;
-    Product.pics[i].id = Product.allProducts[currentylyShowing[i]].name;
-    Product.allProducts[currentylyShowing[i]].views += 1;
-    Product.justViewed[i] = currentylyShowing[i];
+    Product.pics[i].src = Product.allProducts[currentlyShowing[i]].path;
+    Product.pics[i].id = Product.allProducts[currentlyShowing[i]].name;
+    Product.allProducts[currentlyShowing[i]].views += 1;
+    Product.justViewed[i] = currentlyShowing[i];
   }
 }
 
