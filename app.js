@@ -109,10 +109,16 @@ function makeChart() {
     data: {
       labels: dataNames,
       datasets: [{
-        label: 'Number of Votes per Views',
+        label: 'Number of Votes',
         backgroundColor: '#7cff71',
         borderColor: '#403e36',
-        data: voteData, viewData,
+        data: voteData,
+      },
+      {
+        label: 'Number of Views',
+        backgroundColor: '#ffc875',
+        borderColor: '#403e36',
+        data: viewData,
       }]
     },
     // Configuration options go here
