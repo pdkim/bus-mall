@@ -141,8 +141,19 @@ function showTally() {
     liEl.textContent = Product.allProducts[i].name + ' has ' + Product.allProducts[i].votes + ' votes in ' + Product.allProducts[i].views + ' views.';
     Product.tally.appendChild(liEl);
   }
+  //set local storage data
+  var strProducts = JSON.stringify(Product.allProducts);
+  localStorage.setItem('products', strProducts);
 }
 
 //event listener
 Product.container.addEventListener('click', handleClick);
+
+//get storage data
+function getLocalStorage() {
+  var strProducts = localStorage.getItem('products');
+  var products = JSON.parse(strProducts);
+  
+}
+
 displayPic();
