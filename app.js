@@ -1,13 +1,14 @@
 'use strict';
 
-//images
-
 Product.allProducts = [];
 Product.container = document.getElementById('images');
 Product.justViewed = [];
 Product.pics = [document.getElementById('img1'), document.getElementById('img2'), document.getElementById('img3')];
 Product.tally = document.getElementById('final');
 Product.totalClicks = 0;
+
+//data array for chart
+var voteData = [];
 
 function Product(name, filepath) {
   this.name = name;
@@ -82,7 +83,10 @@ function handleClick(event) {
   for(var i = 0; i < Product.allProducts.length; i++) {
     if(event.target.id === Product.allProducts[i].name) {
       Product.allProducts[i].votes += 1;
+      //add data to chart data array
+      voteData.push(Product.allProducts[i].votes);
       console.log(event.target.id + ' has ' + Product.allProducts[i].votes + ' votes in ' + Product.allProducts[i].views + ' views.');
+      console.log(voteData);
     }
   }
   displayPic();
@@ -100,3 +104,33 @@ function showTally() {
 //event listener
 Product.container.addEventListener('click', handleClick);
 displayPic();
+
+//table
+var ctx = document.getElementById('bars').getContext('2d');
+
+var chart = new Chart(ctx, {
+  // The type of chart we want to create
+  type: 'bar',
+
+  // The data for our dataset
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Number of Votes',
+      backgroundColor: '7cff71',
+      borderColor: 'black',
+      data: voteData,
+    }]
+  },
+
+  // Configuration options go here
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
