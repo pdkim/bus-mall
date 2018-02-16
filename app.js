@@ -9,6 +9,8 @@ Product.totalClicks = 0;
 
 //data array for chart
 var voteData = [];
+var viewData = [];
+var dataNames = [];
 
 function Product(name, filepath) {
   this.name = name;
@@ -76,6 +78,7 @@ function handleClick(event) {
   if(Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
     showTally();
+    makeChart();
   }
   if(event.target.id === 'images') {
     return alert('Please select an image.');
@@ -83,13 +86,46 @@ function handleClick(event) {
   for(var i = 0; i < Product.allProducts.length; i++) {
     if(event.target.id === Product.allProducts[i].name) {
       Product.allProducts[i].votes += 1;
-      //add data to chart data array
-      voteData.push(Product.allProducts[i].votes);
       console.log(event.target.id + ' has ' + Product.allProducts[i].votes + ' votes in ' + Product.allProducts[i].views + ' views.');
-      console.log(voteData);
     }
   }
   displayPic();
+}
+
+//function to make chart
+function makeChart() {
+  for(var i = 0; i < Product.allProducts.length; i++) {
+    //add data to chart data array
+    dataNames.push(Product.allProducts[i].name);
+    voteData.push(Product.allProducts[i].votes);
+    viewData.push(Product.allProducts[i].views);
+  }
+  var ctx = document.getElementById('bars').getContext('2d');
+
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+    // The data for our dataset
+    data: {
+      labels: dataNames,
+      datasets: [{
+        label: 'Number of Votes',
+        backgroundColor: '7cff71',
+        borderColor: 'black',
+        data: voteData,
+      }]
+    },
+    // Configuration options go here
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 //tally products
@@ -104,33 +140,3 @@ function showTally() {
 //event listener
 Product.container.addEventListener('click', handleClick);
 displayPic();
-
-//table
-var ctx = document.getElementById('bars').getContext('2d');
-
-var chart = new Chart(ctx, {
-  // The type of chart we want to create
-  type: 'bar',
-
-  // The data for our dataset
-  data: {
-    labels: [],
-    datasets: [{
-      label: 'Number of Votes',
-      backgroundColor: '7cff71',
-      borderColor: 'black',
-      data: voteData,
-    }]
-  },
-
-  // Configuration options go here
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
