@@ -6,17 +6,17 @@
     Bus Mall
   </title>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
 </head>
 <body>
   <header>
     <nav>
-      <a href=""></a>
-      <a href=""></a>
-      <a href=""></a>
+      <a href="">Home</a>
+      <a href="">Products</a>
+      <a href="">About Bus Mall</a>
     </nav>
     <div id="logo">
-      <img src="">
-      <h1>Bus Mall</h1>
+      <h1>Bus Mall Survey</h1>
     </div>
   </header>
   <main>
@@ -24,15 +24,19 @@
     <p>Select the product you would prefer to see in our catalog.</p>
     
     <div id="images">
-      <img src="" alt="first choice of products">
-      <img src="" alt="second choice of products">
-      <img src="" alt="third choice of products">
+      <img id="img1" src="" alt="first choice of products">
+      <img id="img2" src="" alt="second choice of products">
+      <img id="img3" src="" alt="third choice of products">
     </div>
 
     <div id="finalList">
       <h3>Popular Items</h3>
       <ul id="final">
       </ul>
+    </div>
+    <div id="chart-container">
+      <canvas id="bars">
+      </canvas>
     </div>
   </main>
   <footer>
