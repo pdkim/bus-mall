@@ -77,7 +77,7 @@ function handleClick(event) {
   Product.totalClicks += 1;
   if(Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
-    showTally();
+    // showTally();
     makeChart();
   }
   if(event.target.id === 'images') {
@@ -90,8 +90,8 @@ function handleClick(event) {
     }
   }
   //set local storage data
-  var strProducts = JSON.stringify(Product.allProducts);
-  localStorage.setItem('products', strProducts);
+  // var strProducts = JSON.stringify(Product.allProducts);
+  // localStorage.setItem('products', strProducts);
   displayPic();
 }
 
@@ -141,23 +141,23 @@ function makeChart() {
 }
 
 //tally products
-function showTally() {
-  for(var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.allProducts[i].name + ' has ' + Product.allProducts[i].votes + ' votes in ' + Product.allProducts[i].views + ' views.';
-    Product.tally.appendChild(liEl);
-  }
-}
+// function showTally() {
+//   for(var i = 0; i < Product.allProducts.length; i++) {
+//     var liEl = document.createElement('li');
+//     liEl.textContent = Product.allProducts[i].name + ' has ' + Product.allProducts[i].votes + ' votes in ' + Product.allProducts[i].views + ' views.';
+//     Product.tally.appendChild(liEl);
+//   }
+// }
 
 //event listener
 Product.container.addEventListener('click', handleClick);
 
 //get storage data
-(function getLocalStorage() {
-  if(localStorage.products) {
-    var strProducts = localStorage.getItem('products');
-    JSON.parse(strProducts);
-  }
-})();
+// (function getLocalStorage() {
+//   if(localStorage.products) {
+//     var strProducts = localStorage.getItem('products');
+//     JSON.parse(strProducts);
+//   }
+// })();
 
 displayPic();
