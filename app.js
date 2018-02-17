@@ -114,18 +114,21 @@ function makeChart() {
       datasets: [{
         label: 'Number of Votes',
         backgroundColor: '#7cff71',
+        borderWidth: 2,
         borderColor: '#403e36',
         data: voteData,
       },
       {
         label: 'Number of Views',
         backgroundColor: '#ffc875',
+        borderWidth: 2,
         borderColor: '#403e36',
         data: viewData,
       }]
     },
     // Configuration options go here
     options: {
+      maintainAspectRatio: false,
       scales: {
         yAxes: [{
           ticks: {
