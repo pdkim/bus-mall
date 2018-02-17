@@ -153,8 +153,7 @@ Product.container.addEventListener('click', handleClick);
 (function getLocalStorage() {
   if(localStorage.products) {
     var strProducts = localStorage.getItem('products');
-    var products = JSON.parse(strProducts);
-    console.log(products);
+    JSON.parse(strProducts);
   }
 })();
 
