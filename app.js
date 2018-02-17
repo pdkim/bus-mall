@@ -90,8 +90,8 @@ function handleClick(event) {
     }
   }
   //set local storage data
-  // var strProducts = JSON.stringify(Product.allProducts);
-  // localStorage.setItem('products', strProducts);
+  var strProducts = JSON.stringify(Product.allProducts);
+  localStorage.setItem('products', strProducts);
   displayPic();
 }
 
@@ -150,14 +150,12 @@ function showTally() {
 Product.container.addEventListener('click', handleClick);
 
 //get storage data
-// (function getLocalStorage() {
-//   if(localStorage.products) {
-//     var strProducts = localStorage.getItem('products');
-//     var products = JSON.parse(strProducts);
-//     for(var prod of products) {
-//       var newProduct = new Product(prod.name, prod.path, prod.votes, prod.views);
-//     }
-//   }
-// })();
+(function getLocalStorage() {
+  if(localStorage.products) {
+    var strProducts = localStorage.getItem('products');
+    var products = JSON.parse(strProducts);
+    console.log(products);
+  }
+})();
 
 displayPic();
